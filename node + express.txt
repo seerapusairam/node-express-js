@@ -1,0 +1,337 @@
+JavaScript
+
+Arrow Functions with Parameters
+
+	const doubler = (item) => item * 2;
+	
+	function
+	doubler(4);
+
+Default
+	const greeting = (name = "Anonymous") => "Hello " + name;
+
+	console.log(greeting("John"));
+	console.log(greeting());
+
+Rest parameter
+
+	function howMany(...args) {
+	  return "You have passed " + args.length + " arguments.";
+	}
+	console.log(howMany(0, 1, 2));
+	
+Spread Operator
+
+	const arr1 = ['JAN', 'FEB', 'MAR', 'APR', 'MAY'];
+	let arr2;
+	arr2 = [...arr1]; 
+	console.log(arr2);
+	
+	o/p- ['JAN', 'FEB', 'MAR', 'APR', 'MAY']
+	
+Destructuring assignment 
+
+	const HIGH_TEMPERATURES = {
+	  yesterday: 75,
+	  today: 77,
+	  tomorrow: 80
+	};
+	const { today,tomorrow } = HIGH_TEMPERATURES;
+	
+	we can assign new variables like this 
+	
+		const HIGH_TEMPERATURES = {
+		  yesterday: 75,
+		  today: 77,
+		  tomorrow: 80
+		};
+		  
+		const {today:highToday, tomorrow: highTomorrow} = HIGH_TEMPERATURES  
+		( actually this is like highToday = HIGH_TEMPERATURES.today )
+	
+	Nested object
+	
+		const LOCAL_FORECAST = {
+		  yesterday: { low: 61, high: 75 },
+		  today: { low: 64, high: 77 },
+		  tomorrow: { low: 68, high: 80 }
+		};
+	  
+		const {today:{low:lowToday}} = LOCAL_FORECAST
+		const {today:{high:highToday}} = LOCAL_FORECAST
+	
+	assign with array
+	
+		const [a, b,,, c] = [1, 2, 3, 4, 5, 6];
+		console.log(a, b, c);
+		
+		o/p - 1,2,5
+		
+	Destructuring via rest elements
+	
+		const [a, b, ...arr] = [1, 2, 3, 4, 5, 7];
+		console.log(a, b);
+		console.log(arr);
+	
+	export
+
+		const uppercaseString = (string) => {
+		  return string.toUpperCase();
+		}
+
+		const lowercaseString = (string) => {
+		  return string.toLowerCase()
+		}
+
+		export { uppercaseString, lowercaseString };
+	import 
+	
+		import {uppercaseString, lowercaseString} from './string_functions.js'
+		// Only change code above this line
+
+		uppercaseString("hello");
+		lowercaseString("WORLD!");
+
+template literal		
+
+	const person = {
+	  name: "Zodiac Hasbro",
+	  age: 56
+	};
+
+	const greeting = `Hello, my name is ${person.name}!
+	I am ${person.age} years old.`;
+	console.log(greeting);
+
+	o/p - Hello, my name is Zodiac Hasbro! and I am 56 years old.
+
+	uses backticks (`), not quotes (' or "), to wrap the string. Secondly, notice that the string is multi-line, 
+	both in the code and the output. This saves inserting \n within strings. The ${variable} syntax used above is a placeholder.
+	
+Write Concise Object Literal Declarations Using Object Property Shorthand
+
+	const getMousePosition = (x, y) => ({
+	  x: x,
+	  y: y
+	}); 
+	-->
+	const getMousePosition = (x, y) => ({ x, y });
+
+ Declarative Functions with ES6
+ 
+ const person = {
+  name: "Taylor",
+  sayHello() {                                       - -->  before --> sayHello: function() {
+    return `Hello! My name is ${this.name}.`;
+  }
+};
+
+
+
+Backend/API Developer with strong Node.js + REST API + Apigee Gateway skills
+
+✅ Day 1: Learn JavaScript Basics (ES6+)
+let vs const
+Arrow functions () => {}
+Destructuring: const { name } = obj
+map, filter, forEach, reduce
+
+✅ Day 2: Learn Node.js + Express Basics
+What is Node.js?
+
+Node.js is a runtime environment that lets you run JavaScript on the backend (server side).
+uses v8 engine same as chrome
+
+Understanding the event loops - how teh async task will be done in node js
+
+	Let’s say we are reading a file. In JavaScript, since it runs on a single thread, a synchronous file read will block the thread until it completes.
+	But in Node.js, if we use fs.readFile() (asynchronous), the file read operation is sent to the background (handled by libuv).
+	Node doesn’t wait for it to finish — it immediately continues running the remaining code.
+	Once the background task completes, the callback is placed in the event loop queue, and it gets executed only when the call stack is clear.
+
+setTimeout -> it was a async callback thing which will execute after the mention time 
+setInterval -> it will keep on executing after mentioned time
+
+    fs.writeFileSync('./sample/big.txt',`Hello there ${i}\n`, { flag : 'a' }) // flag will tell how to open the file we are opening in append mode
+
+callback (async)
+
+	A callback is a function passed as an argument to another function and is called after the first function completes(main function).
+
+	function fetchData(callback) {
+	  setTimeout(() => {
+		console.log("Data fetched");
+		callback();
+	  }, 1000);
+	}
+
+	fetchData(() => {
+	  console.log("Callback executed");
+	});
+
+	When callbacks are nested deeply, it becomes messy — this is called callback hell.
+
+Promises (async)
+	A Promise is an object that represents the eventual completion or failure of an async operation. It has 3 states:
+
+	pending
+
+	Fulfilled → success (calls .then())
+
+	Rejected → failure (calls .catch())
+
+	function fetchData() {
+	  return new Promise((resolve, reject) => {
+		setTimeout(() => {
+		  console.log("Data fetched");
+		  resolve("Success");
+		}, 1000);
+	  });
+	}
+
+	fetchData()
+	  .then((msg) => console.log("Then:", msg))
+	  .catch((err) => console.error("Catch:", err));
+
+async/await (async)
+	async/await is built on top of Promises. It allows you to write asynchronous code like synchronous code, improving readability.
+
+	You use:
+
+	async before a function → it returns a Promise
+
+	await inside an async function → waits for the Promise to resolve
+
+	📦 Real-life Analogy:
+	Like cooking a meal in steps:
+
+	You wait for the water to boil,
+
+	then you wait for the pasta to cook,
+
+	then you serve it.
+
+	Each step waits for the previous one.
+
+	function doTask(task) {
+	  return new Promise((resolve) => {
+		setTimeout(() => {
+		  console.log(`${task} done`);
+		  resolve(task);
+		}, 1000);
+	  });
+	}
+
+	async function runTasks() {
+	  const laundry = await doTask("Laundry");
+	  const cooking = await doTask("Cooking");
+	  const cleaning = await doTask("Cleaning");
+
+	  console.log("All tasks finished:", laundry, cooking, cleaning);
+	}
+
+	runTasks();
+	
+EventEmitter
+
+	The EventEmitter is a built-in class in Node.js that allows objects to "emit" named events and register "listeners"
+	 (functions) that run when those events happen.
+
+	example -
+
+		const EventEmitter = require('events');
+		const myEmitter = new EventEmitter();
+
+		myEmitter.on('ping', () => {
+		  console.log('pong');
+		});
+
+		myEmitter.emit('ping');
+		
+		in this funtion when we wmit on ping it will check if there is anying on funtions if there then there executed it
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+What is Express.js?
+
+How to create a simple server with Express
+
+Routes: GET, POST, PUT, DELETE
+
+
+✅ Day 3: Build a Simple Local API
+Set up Express server
+
+Create basic routes like /books
+
+Send JSON response using res.json()
+
+✅ You’ll understand:
+
+Route handling
+
+Using Postman to test endpoints
+
+✅ Day 4: Learn MongoDB + Mongoose
+What is MongoDB?
+
+How to use MongoDB Atlas
+
+How to connect to MongoDB from Node.js
+
+Define schemas with Mongoose
+
+📘 Resource:
+
+YouTube: "MongoDB + Mongoose Crash Course"
+
+✅ Day 5–6: Combine Express + MongoDB
+Save data to MongoDB using a POST API
+
+Retrieve data using a GET API
+
+Practice using Postman
+
+✅ Day 7: Learn Basic JWT Auth
+What is JWT?
+
+Register/Login route
+
+Sign and verify JWT tokens
+
+Use middleware to protect routes
+
+⏳ By End of Week 1:
+You’ll be ready to build your own simple CRUD app and then we can:
+
+Push it to GitHub
+
+Add Apigee on top
+
