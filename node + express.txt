@@ -9,7 +9,6 @@ Arrow Functions with Parameters
 
 Default
 	const greeting = (name = "Anonymous") => "Hello " + name;
-
 	console.log(greeting("John"));
 	console.log(greeting());
 
@@ -142,6 +141,12 @@ What is Node.js?
 Node.js is a runtime environment that lets you run JavaScript on the backend (server side).
 uses v8 engine same as chrome
 
+	Browser (Client)
+	   ↓    HTTP Request (GET/POST)
+	Server (Node.js + Express)
+	   ↑    HTTP Response (HTML/JSON/Text)
+	Browser (Client)
+
 Understanding the event loops - how teh async task will be done in node js
 
 	Let’s say we are reading a file. In JavaScript, since it runs on a single thread, a synchronous file read will block the thread until it completes.
@@ -249,37 +254,64 @@ EventEmitter
 		myEmitter.emit('ping');
 		
 		in this funtion when we wmit on ping it will check if there is anying on funtions if there then there executed it
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		
+	http module - In every communication we need to have res.end() which will signal the browser that the communication is over
 
 What is Express.js?
+
+	It was bulid on top of http module in node js, it will make the task easy with.get(),.post() .. funtion and make the code look clean
+	
+	It allows you to handle HTTP requests, define routes, manage middleware, and much more — all with simple, clean code.
+	
+	usecase - hosting website
+	
+	let say we have a website with html+css+js 
+	
+	in http module if we want to host this website we need to send all the file induvidually to the server (node js) as it will be expecting the file 
+	
+	example like lets say we need to send the html file as it was the main but inside the file we expectinf css and js files also so the server will
+	expect those files also 
+	
+	so in http module we need to send files as we sent for html file which will make code repeat and the code will be messy 
+	
+	when we come for express even here the server will expect the css and js files but rather then sending induvidually file we have a method called
+	.use(express.static('folder name')
+	
+	we will inculde all the file which are requried by the html here so it will take automaticaally so rather then sending one one file 
+	
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 How to create a simple server with Express
 

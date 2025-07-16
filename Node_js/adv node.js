@@ -3,16 +3,15 @@ const fetchData = async () => {
   const data = await response.json();
   console.log(data);
 };
-
 fetchData().catch(error => console.error('Error fetching data:', error));
 
-
-// Use map() to multiply each number in [1,2,3,4] by 10
-
+// Use map() to multiply each number in [1,2,3,4] by 10.
+// map return new array.
 const numbers = [1, 2, 3, 4];
-const mult = numbers.map(n => n* 10)
+console.log(numbers.map(n => n* 10))
 
-// Use filter() to keep only strings from ["js", 1, "node", 2]
+// Use filter() to keep only strings from ["js", 1, "node", 2].
+//Creates a new array with all elements that pass the test implemented by the provided function.
 const mixedArray = ["js", 1, "node", 2];
 const stringsOnly = mixedArray.filter(item => typeof item === 'string');    
 
@@ -29,6 +28,7 @@ console.log(number(4)); // true
 console.log(number(5)); // false
 
 // for each loop to print each element in an array
+//Executes a function for each element in the array.
 const arr1 = ["sai", "maha", "banu", "suku"];
 arr1.forEach(n => console.log(n)); 
 
