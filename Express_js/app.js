@@ -1,23 +1,27 @@
 const express = require('express')
-const path = require('path')
+const {products} = require('./data.js')
 const app = express()
 
-app.use(express.static('./web'))
-
 app.get('/',(req,res)=>{
-    // we need to send the file path with absoulte path of the file 
-    // either we can include it directly or we can use path module 
-
-    //without 
-    // res.sendFile('C:/Users/subbu/Desktop/Backend API dev/Express_js/web/index.html')
-    //with
-    res.sendFile(path.resolve(__dirname,'./web/index.html'))
+    res.send('<h1>Home Page</h1><a href="/api/products">Products</a>')
 })
 
-app.all('*',(req,res)=>{
-    res.status(404).json({code:404,error:"resource not found"})
+app.get('/api/products', (req,res)=>{
+    const newProducts = products.map((product) =>{
+     const {id, name, image} = product
+     return {id, name, image}
+    })
+    res.json(newProducts)
 })
+
+app.get('/api/products/1', (req,res)=>{
+    const number = products.find((product)=> product.id === 1)
+    const {id, name, image} = number
+    res.json({id, name, image})
+})
+
+
 
 app.listen(5000, ()=>{
-    console.log("Server listing at 5000")
+    console.log("Starting at 5000..")
 })

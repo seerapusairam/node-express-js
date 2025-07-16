@@ -162,6 +162,8 @@ setInterval -> it will keep on executing after mentioned time
 callback (async)
 
 	A callback is a function passed as an argument to another function and is called after the first function completes(main function).
+	
+	Callbacks are the functions that the event loop runs once the associated event (timer, I/O, HTTP request) is ready.
 
 	function fetchData(callback) {
 	  setTimeout(() => {
@@ -275,9 +277,16 @@ What is Express.js?
 	so in http module we need to send files as we sent for html file which will make code repeat and the code will be messy 
 	
 	when we come for express even here the server will expect the css and js files but rather then sending induvidually file we have a method called
-	.use(express.static('folder name')
+	.use(express.static('folder name') - static assets 
 	
-	we will inculde all the file which are requried by the html here so it will take automaticaally so rather then sending one one file 
+	we will inculde all the file which are requried here so it will take automaticaally so rather then sending one one file 
+	
+	Note :If we didnt handle "/" in app.js... Express looks inside the web folder.If it finds a file named index.html, it automatically serves it
+	as the default file for /.
+
+API(REST API / JSON API) vs SSR(Server-Side Rendering)
+	API sends raw JSON data from server to client — the client (like React) builds the UI.
+	SSR sends fully rendered HTML templates from the server — the UI is built on the server itself.
 	
 	
 
