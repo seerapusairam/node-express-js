@@ -288,6 +288,23 @@ API(REST API / JSON API) vs SSR(Server-Side Rendering)
 	API sends raw JSON data from server to client — the client (like React) builds the UI.
 	SSR sends fully rendered HTML templates from the server — the UI is built on the server itself.
 	
+Route Parameters 
+
+	this are dynamic parameter which we will include in path.
+	
+	example -
+	app.get('/api/products/:productId', (req,res)=>{
+		const id = req.params.productId
+		const number = products.find((product)=> product.id === Number(id))
+		// const {id, name, image} = number
+		if(number){
+			return res.json(number)
+		}else{
+			return res.status(404).json({code:404,error:"Resource not found"})
+		}
+	})
+	
+	In this code we are check the product id dynamicly 
 	
 
 	
