@@ -332,13 +332,11 @@ example
 app.use(morgan('tiny))	
 
 
+Method -  POST
 
+parse URL-encoded form data (typically from HTML forms submitted with application/x-www-form-urlencoded content type) and make it available on req.body.
 
-
-
-
-
-
+app.use(express.urlencoded({extended : false})
 
 
 
