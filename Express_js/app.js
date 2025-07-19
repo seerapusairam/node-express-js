@@ -12,7 +12,8 @@ app.get('/api/people', (req,res)=>{
         data:people
     })
 })
-//parse json
+//parse json 
+//request for javascript in UI
 app.use(express.json())
 app.post('/api/people', (req,res)=>{
     const {name} = req.body
@@ -29,7 +30,7 @@ app.post('/api/people', (req,res)=>{
         })
     }
 })
-
+//request to check in postman
 app.post('/api/postman/people', (req,res)=>{
     const {name} = req.body
 
@@ -42,6 +43,33 @@ app.post('/api/postman/people', (req,res)=>{
         res.status(201).send({
             status:true,
             data:[...people],name
+        })
+    }
+})
+
+//PUT
+app.put('/api/people/:id', (req,res)=>{
+    const {id} = req.params
+    const {name} = req.body
+
+    const person = people.find((p)=> p.id === Number(id))
+
+    if(!person){
+        res.status(404).json({
+            code:404,
+            message:`person id: ${id} not found`
+        })
+    }
+    
+    if(name){
+        people.filter((p) => p.id === Number(id)).map((p) => p.name = `${name}`)
+        res.json({
+            data:people
+        })
+    }else{
+        res.status(404).json({
+            code:404,
+            message:"Please provide the name"
         })
     }
 })
