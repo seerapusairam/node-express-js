@@ -1,0 +1,19 @@
+const express = require('express')
+const router = express.Router()
+
+const controller = require('../controller/peopleController')
+
+//GET
+router.get('/', controller.getPeople)
+//POST
+router.post('/', controller.postPeople)
+
+//request to check in postman
+router.post('/postman', controller.postPostman)
+
+//PUT - Update id
+router.put('/:id', controller.putPeople)
+//DELETE - id
+router.delete('/:id', controller.deletePeople)
+
+module.exports = router

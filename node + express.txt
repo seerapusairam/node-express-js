@@ -332,11 +332,57 @@ example
 app.use(morgan('tiny))	
 
 
-Method -  POST
+Method -  GET, POST,PUT, DELETE
 
-parse URL-encoded form data (typically from HTML forms submitted with application/x-www-form-urlencoded content type) and make it available on req.body.
+	parse URL-encoded form data (typically from HTML forms submitted with application/x-www-form-urlencoded content type) and make it available on req.body.
 
-app.use(express.urlencoded({extended : false})
+	app.use(express.urlencoded({extended : false})
+
+	if we want to parse json then we can use 
+
+	app.use(express.json())
+
+Router
+
+In Express.js, a router is a way to group and organize related routes (URLs + handlers) together. It helps to modularize your application.
+
+we can set up MVC with this 
+	
+	//app.js
+	const peopleRouter = require('./routes/people')
+
+	app.use('/api/people', peopleRouter) - /api/people is the base path.
+
+	// routes/people.js
+	const express = require('express')
+	const router = express.Router()
+
+	router.get('/', (req, res) => {
+	  res.send('Get all people')
+	})
+
+	router.post('/:id', (req, res) => {
+	  res.send('Add a person')
+	})
+
+	module.exports = router
+	
+peopleRouter contains all sub-routes like:
+
+	/ → for GET all
+
+	/:id → for PUT/DELETE/GET by ID
+
+	/add → for POST maybe
+	
+if we hit this reqs
+
+	GET /api/people
+	POST /api/people
+	PUT /api/people/1
+	DELETE /api/people/1
+
+All gets routed through peopleRouter.
 
 
 
