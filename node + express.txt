@@ -1,4 +1,39 @@
+GIT 
+
+from local
+
+	git init
+
+	git add . - Add your files
+
+	git commit -m "Initial commit" - Commit the changes
+
+	git remote add origin <repo link> - Add remote repository
+
+	git branch -M main
+	git push -u origin main - Push your code
+
+	# Rename the local branch from master to main
+	git branch -m master main
+
+	# Delete master from remote if needed
+	git push origin --delete master
+
+	git pull origin main --rebase - pull the code from repo to avoide merge confilts
+
 JavaScript
+
+Array 
+
+Add -  conCat() - add 2 arrays - Doesn’t modify original.
+	   push() - add at the end and return the number of items in the array
+	   unshift() -  add at start - return the new length
+
+Update -  array[0].name = newName
+		  .map() - to update each elements
+
+Delete - .splice(index, 1)	Removes 1 item at index. Changes original array.
+		.filter()	Returns new array with only items that match condition.
 
 Arrow Functions with Parameters
 
@@ -240,6 +275,42 @@ async/await (async)
 
 	runTasks();
 	
+For understanding
+
+//Callback
+setTimeout(()=>{
+    console.log("one");
+    setTimeout(()=>{
+        console.log("Two");
+        setTimeout(()=>{
+            console.log("Three")
+        })
+    },1000)
+},1000)
+
+//promise
+function Delayed(msg){
+    return new Promise((resolve)=>{
+        setTimeout(()=>{
+            console.log(msg);
+            resolve();
+        },1000)
+    })
+}
+
+Delayed("One")
+    .then(()=> Delayed("Two"))
+    .then(()=> Delayed("Three"))
+
+//using async/await
+async function delay() {
+    await Delayed("One");
+    await Delayed("Two");
+    await Delayed("Three")
+}
+
+delay()
+	
 EventEmitter
 
 	The EventEmitter is a built-in class in Node.js that allows objects to "emit" named events and register "listeners"
@@ -259,6 +330,13 @@ EventEmitter
 		in this funtion when we wmit on ping it will check if there is anying on funtions if there then there executed it
 		
 	http module - In every communication we need to have res.end() which will signal the browser that the communication is over
+	
+Package.json
+	npm inti
+	
+	npm install <package-name> - dependencies
+	
+	npm install <package-name> --save-dev - devDependencies
 
 What is Express.js?
 
@@ -289,6 +367,12 @@ Static
 API(REST API / JSON API) vs SSR(Server-Side Rendering)
 	API sends raw JSON data from server to client — the client (like React) builds the UI.
 	SSR sends fully rendered HTML templates from the server — the UI is built on the server itself.
+	
+	/api/user/:id?name=sai
+	
+	req.path =  '/api/user' - path
+	req.query = '?name=sai' - query
+	req.param = ':id' = param
 	
 Route Parameters 
 
@@ -341,6 +425,14 @@ Method -  GET, POST,PUT, DELETE
 	if we want to parse json then we can use 
 
 	app.use(express.json())
+
+✅ Day 3: Build a Simple Local API
+
+✅ You’ll understand:
+
+Route handling
+
+Using Postman to test endpoints
 
 Router
 
@@ -405,23 +497,6 @@ All gets routed through peopleRouter.
 
 
 
-How to create a simple server with Express
-
-Routes: GET, POST, PUT, DELETE
-
-
-✅ Day 3: Build a Simple Local API
-Set up Express server
-
-Create basic routes like /books
-
-Send JSON response using res.json()
-
-✅ You’ll understand:
-
-Route handling
-
-Using Postman to test endpoints
 
 ✅ Day 4: Learn MongoDB + Mongoose
 What is MongoDB?

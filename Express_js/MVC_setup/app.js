@@ -5,7 +5,7 @@ const peopleRouter = require('./router/peopleRouter')
 const loginRoute = require('./router/loginRouter')
 
 app.use(express.static('./web_post')) 
-//parse the urlencoded content type to req.body
+//middleware to parse the req.body
 app.use(express.urlencoded({ extended: false })) 
 //parse json //request for javascript in UI
 app.use(express.json())
