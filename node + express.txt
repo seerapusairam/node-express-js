@@ -436,59 +436,132 @@ Using Postman to test endpoints
 
 Router
 
-In Express.js, a router is a way to group and organize related routes (URLs + handlers) together. It helps to modularize your application.
+	In Express.js, a router is a way to group and organize related routes (URLs + handlers) together. It helps to modularize your application.
 
-we can set up MVC with this 
+	we can set up MVC with this 
+		
+		//app.js
+		const peopleRouter = require('./routes/people')
+
+		app.use('/api/people', peopleRouter) - /api/people is the base path.
+
+		// routes/people.js
+		const express = require('express')
+		const router = express.Router()
+
+		router.get('/', (req, res) => {
+		  res.send('Get all people')
+		})
+
+		router.post('/:id', (req, res) => {
+		  res.send('Add a person')
+		})
+
+		module.exports = router
+		
+	peopleRouter contains all sub-routes like:
+
+		/ → for GET all
+
+		/:id → for PUT/DELETE/GET by ID
+
+		/add → for POST maybe
+		
+	if we hit this reqs
+
+		GET /api/people
+		POST /api/people
+		PUT /api/people/1
+		DELETE /api/people/1
+
+	All gets routed through peopleRouter.
+
+MangoDB
+
+	MongoDB
+	└── Database (e.g., "school")
+		 └── Collection (e.g., "students")
+			  └── Document (e.g., { name: "Sairam", age: 25 })
+
+	NoSql, NON relational database which will be in json format 
+
+	Database 
+	collections - are like tables in sql
+	documents -  like rows in sql
+
+	For this project we are using atlas mangodb which was like mango was hosted in cloud we aare just using from there 
+	it was a UI based mangodb 
+
+	1st things to do 
+	1 - make the network to anywhere so we can connect 
+	2 - make a user to read and write any database 
+
+	In code we are going to use mangooes 
+
+Mongoose -
+	Mongoose is an ODM (Object Data Modeling) library for MongoDB and Node.js.
+	it will make the code clear and simple to understand has lot of bulid in funtion which makes the task easy 
+
+	Connection to db 
+
+	dotenv - it was a package where we can use for access the env variables 
+
+	in URL WE CAN MENTION THE DATABASE NAME if it was not there mangodb will create a database in that name or else it will connect to that db
+
+FLOW 
+
+	.env          ← store MONGO_URI
+	 |
+	mongoose.connect()   ← connection using dotenv
+	 |
+	Schema definition    ← define data structure (like SQL table schema)
+	 |
+	Model creation       ← create a model from schema
+	 |
+	CRUD operations      ← use model to interact with the collection
+
+so if we created a schema and want to post the data only the ones in the schema will be passed/posted into the database remining will be ignored.
+
+example -
+
+	{name:String} - let say this is the schema 
 	
-	//app.js
-	const peopleRouter = require('./routes/people')
-
-	app.use('/api/people', peopleRouter) - /api/people is the base path.
-
-	// routes/people.js
-	const express = require('express')
-	const router = express.Router()
-
-	router.get('/', (req, res) => {
-	  res.send('Get all people')
-	})
-
-	router.post('/:id', (req, res) => {
-	  res.send('Add a person')
-	})
-
-	module.exports = router
+	if we want to post some data and choose this schema and send 
 	
-peopleRouter contains all sub-routes like:
-
-	/ → for GET all
-
-	/:id → for PUT/DELETE/GET by ID
-
-	/add → for POST maybe
+	{
+		"name":"sa"
+		"status":true
+	}
 	
-if we hit this reqs
+	only name will be sent to the database statsu will be ignoredd
+	
+Comman Commands
+Connection
+	mongoose.connect('mongodb://localhost:27017/mydb')
 
-	GET /api/people
-	POST /api/people
-	PUT /api/people/1
-	DELETE /api/people/1
+Schema & Model
+	const schema = new mongoose.Schema({ name: String });
+	const Model = mongoose.model('ModelName', schema);
 
-All gets routed through peopleRouter.
+Validation
+	name: { type: String, required: true, trim: true }
+	email: { type: String, unique: true, match: /@gmail\.com$/ }
 
+Create
+	await Model.create({ name: 'Sairam' });
+Read
+	await Model.find();                      // Get all
+	await Model.findOne({ name: 'Sairam' }); // Get one
+	await Model.findById('64ea56f...');      // Get by _id
 
+Update
+	await Model.updateOne({ _id }, { $set: { name: 'Updated' } });
+	await Model.findByIdAndUpdate(id, { age: 26 }, { new: true }); // return updated doc
 
-
-
-
-
-
-
-
-
-
-
-
+Delete
+	await Model.deleteOne({ _id });
+	await Model.findByIdAndDelete(id); -  delete based on id
+	await Model.findOneAndDelete({name:"sairam"}) - delete based on any condition
 
 
 
