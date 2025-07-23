@@ -421,6 +421,30 @@ Pre-made middle ware funtion
 example
 app.use(morgan('tiny))	
 
+High-Order Function (HOF) - basically we can create a separate middle ware for error handling it was the best way
+
+so we are separating the business login and error handler in a seaprated file so the code looks clean 
+
+Flow
+	Client Request
+		 |
+		 v
+	Route (e.g., /tasks/:id)
+		 |
+		 v
+	Controller (wrapped in asyncWrapper)
+		 |
+		 |-- Success --> Send JSON Response
+		 |
+		 |-- Error --> next(error)
+						 |
+						 v
+			    Error Handler Middleware
+						 |
+						 v
+				Send Formatted Error Response
+
+
 
 Method -  GET, POST,PUT, DELETE
 
@@ -481,6 +505,8 @@ Router
 		DELETE /api/people/1
 
 	All gets routed through peopleRouter.
+	
+
 
 MangoDB
 
