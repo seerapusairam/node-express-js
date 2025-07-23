@@ -1,13 +1,13 @@
-const model = require('../models/Task')
+const Task = require('../models/Task')
 
 const getTask = async (req,res)=>{
-    const getTask = await model.find({})
-    res.json({data:getTask})
+    const tasks = await Task.find({})
+    res.json({tasks})
 }
 const postTask = async (req,res)=>{
     try {
-        const postTask = await model.create(req.body)
-        res.status(201).json({postTask})
+        const task = await Task.create(req.body)
+        res.status(201).json({task})
     } catch (error) {
         res.status(500).json(error)
     }
@@ -16,41 +16,51 @@ const postTask = async (req,res)=>{
 const getTaskById = async (req,res)=>{
     try {
         const { id:taskId } = req.params
-        const getId = await model.findOne({_id:taskId})
-        if(!getId){
+        const task = await Task.findOne({_id:taskId})
+        if(!task){
             return res.status(404).json({
                 status:false,
                 message:"Id not found"
             })
         }
-        res.json({data:getId})
+        res.json({task})
     } catch (error) {
         res.status(500).json({
             msg:`No task with id :${req.params.id}`
         })
     }
-}
-
-const updateTaskById = (req,res)=>{
-    res.send("update one task by id")
 }
 
 const deleteTaskById = async (req,res)=>{
     try {
         const { id:taskId } = req.params
-        const deleteId = await model.findOneAndDelete({_id:taskId})
-        if(!deleteId){
+        const task = await Task.findOneAndDelete({_id:taskId})
+        if(!task){
             return res.status(404).json({
                 status:false,
                 message:"Id not found"
             })
         }
-        res.json({data:deleteId})
+        res.json({task})
     } catch (error) {
         res.status(500).json({
             msg:`No task with id :${req.params.id}`
         })
     }
+}
+
+const updateTaskById = async (req, res, next) => {
+  const { id: taskID } = req.params
+  const task = await Task.findOneAndUpdate({ _id: taskID }, req.body, {
+    new: true,
+    runValidators: true,
+  })
+  if (!task) {
+        res.status(500).json({
+            msg:`No task with id :${req.params.id}`
+        })
+  }
+  res.status(200).json({ task })
 }
 
 module.exports = {

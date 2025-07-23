@@ -8,6 +8,7 @@ const taskrouter = require('./router/taskRouter')
 
 //middleware 
 app.use(express.json())
+app.use(express.static('./public'))
 
 app.use('/api/v1/tasks', taskrouter)
 

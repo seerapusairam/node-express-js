@@ -23,6 +23,12 @@ from local
 
 JavaScript
 
+= vs == vs ===
+
+= is assign operator
+== check the value part only 
+=== check the value and type 
+
 Array 
 
 Add -  conCat() - add 2 arrays - Doesn’t modify original.
