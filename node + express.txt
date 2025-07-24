@@ -451,6 +451,8 @@ Note: How to know this is error middleware or normal middleware
 
 in express - (err,req,res,next)  - this is error middle ware
 			 (req,res,next) - normal middleware
+			 
+express-async-errors is a popular npm package that makes handling async errors in Express simpler — you won’t even need to write an asyncWrapper manually.
 
 Method -  GET, POST,PUT, DELETE
 
