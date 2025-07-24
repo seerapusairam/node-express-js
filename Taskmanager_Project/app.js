@@ -2,7 +2,7 @@ const connectDb = require('./db/connect')
 require('dotenv').config()
 const express = require('express')
 const app = express() 
-const port  = 3000
+const port  = process.env.PORT || 3000 // PORT=5000 node app.js
 
 const taskrouter = require('./router/taskRouter')
 const notFound = require('./middleware/NotFound')
@@ -23,7 +23,7 @@ const start = async () =>{
     try {
         await connectDb(process.env.URL)
         app.listen(port,()=>{
-        console.log("at 3000..")
+        console.log(`Running on : ${port}`)
     })
     } catch (error) {
         console.log("connection failed to DB")

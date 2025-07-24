@@ -421,30 +421,36 @@ Pre-made middle ware funtion
 example
 app.use(morgan('tiny))	
 
-High-Order Function (HOF) - basically we can create a separate middle ware for error handling it was the best way
+Error handling middle ware 
 
-so we are separating the business login and error handler in a seaprated file so the code looks clean 
+	High-Order Function (HOF) - basically we can create a separate middle ware for error handling it was the best way
 
-Flow
-	Client Request
-		 |
-		 v
-	Route (e.g., /tasks/:id)
-		 |
-		 v
-	Controller (wrapped in asyncWrapper)
-		 |
-		 |-- Success --> Send JSON Response
-		 |
-		 |-- Error --> next(error)
-						 |
-						 v
-			    Error Handler Middleware
-						 |
-						 v
-				Send Formatted Error Response
+	so we are separating the business login and error handler in a seaprated file so the code looks clean 
 
+	Flow
+		Client Request
+			 |
+			 v
+		Route (e.g., GET /tasks/:id)
+			 |
+			 v
+		Controller (wrapped in asyncWrapper)
+			 |
+			 |-- If OK --> Send JSON response
+			 |
+			 |-- If Error --> next(error)
+								  |
+								  v
+					 Error Handler Middleware
+								  |
+								  v
+			- If error instanceof customError --> Use custom msg + statusCode      -> customError is the class we extented from error class
+			- Else (system error) --> Send generic 500 msg
+			
+Note: How to know this is error middleware or normal middleware 
 
+in express - (err,req,res,next)  - this is error middle ware
+			 (req,res,next) - normal middleware
 
 Method -  GET, POST,PUT, DELETE
 
