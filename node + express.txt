@@ -514,7 +514,22 @@ Router
 
 	All gets routed through peopleRouter.
 	
+✅ Day 4: Learn MongoDB + Mongoose
+What is MongoDB?
 
+How to use MongoDB Atlas
+
+How to connect to MongoDB from Node.js
+
+Define schemas with Mongoose
+
+
+✅ Day 5–6: Combine Express + MongoDB
+Save data to MongoDB using a POST API
+
+Retrieve data using a GET API
+
+Practice using Postman
 
 MangoDB
 
@@ -524,6 +539,10 @@ MangoDB
 			  └── Document (e.g., { name: "Sairam", age: 25 })
 
 	NoSql, NON relational database which will be in json format 
+	
+	_id field: Auto-generated unique identifier (ObjectId) for every document.
+
+	BSON: MongoDB stores data in BSON (Binary JSON), not pure JSON (supports additional types like Date, ObjectId).
 
 	Database 
 	collections - are like tables in sql
@@ -533,8 +552,9 @@ MangoDB
 	it was a UI based mangodb 
 
 	1st things to do 
-	1 - make the network to anywhere so we can connect 
-	2 - make a user to read and write any database 
+	Network Access: Add 0.0.0.0/0 to allow all IPs during dev (remove later for security).
+	Database Users: Create specific users with least privileges.
+	Connection String: mongodb+srv://<user>:<pass>@cluster.mongodb.net/<dbName>
 
 	In code we are going to use mangooes 
 
@@ -586,6 +606,7 @@ Schema & Model
 Validation
 	name: { type: String, required: true, trim: true }
 	email: { type: String, unique: true, match: /@gmail\.com$/ }
+	default → set default values for fields.
 
 Create
 	await Model.create({ name: 'Sairam' });
@@ -612,30 +633,23 @@ process.exit(0) -  we will exit the process/function
 process.exit(1) -  we will exit with error
 
 
+Pagination 
 
-
-
-
-
-✅ Day 4: Learn MongoDB + Mongoose
-What is MongoDB?
-
-How to use MongoDB Atlas
-
-How to connect to MongoDB from Node.js
-
-Define schemas with Mongoose
-
-📘 Resource:
-
-YouTube: "MongoDB + Mongoose Crash Course"
-
-✅ Day 5–6: Combine Express + MongoDB
-Save data to MongoDB using a POST API
-
-Retrieve data using a GET API
-
-Practice using Postman
+	splits large data sets into smaller chunks (pages).
+	Improves performance and reduces bandwidth.
+	Commonly used with limit and skip in MongoDB/Mongoose.
+	
+	means like lets say igave limit as 10 per page and we have 40
+	
+	as data is 40 we have 4 pages
+	
+	skip = (page - 1) * limit;
+	
+	i wanna see 2 page so i gave page = 2 and limit =10
+	
+	skip = (2-1)*10 = 1-1*10 = 10 
+	
+	.skip(10).limit(10) - as per page is 10 only i will get 2nd page data
 
 ✅ Day 7: Learn Basic JWT Auth
 What is JWT?
