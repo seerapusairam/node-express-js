@@ -357,7 +357,7 @@ Static
 	
 	in http module if we want to host this website we need to send all the file induvidually to the server (node js) as it will be expecting the file 
 	
-	example like lets say we need to send the html file as it was the main but inside the file we expectinf css and js files also so the server will
+	example like lets say we need to send the html file as it was the main but inside the file we expecting css and js files also so the server will
 	expect those files also 
 	
 	so in http module we need to send files as we sent for html file which will make code repeat and the code will be messy 
@@ -591,6 +591,7 @@ Create
 	await Model.create({ name: 'Sairam' });
 Read
 	await Model.find();                      // Get all
+	await Model.find({ name: 'Sairam' });    // Get one
 	await Model.findOne({ name: 'Sairam' }); // Get one
 	await Model.findById('64ea56f...');      // Get by _id
 
@@ -603,7 +604,12 @@ Delete
 	await Model.findByIdAndDelete(id); -  delete based on id
 	await Model.findOneAndDelete({name:"sairam"}) - delete based on any condition
 
-
+Get the number of documents in the database
+	await model.countDocuments();
+	
+	
+process.exit(0) -  we will exit the process/function
+process.exit(1) -  we will exit with error
 
 
 
