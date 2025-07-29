@@ -239,8 +239,11 @@ Promises (async)
 	}
 
 	fetchData()
-	  .then((msg) => console.log("Then:", msg))
-	  .catch((err) => console.error("Catch:", err));
+	  .then((msg) => console.log("Then:", msg)) // run on resolve means if we mention resolve in promise the only we can get the data in .then
+	  .catch((err) => console.error("Catch:", err)); // this code wont run even if i mentioned it here cuz i didnt use reject in promise so the promise will never enter the reject state to use .catch
+	  
+	output-
+	Then: Success
 
 async/await (async)
 	async/await is built on top of Promises. It allows you to write asynchronous code like synchronous code, improving readability.
@@ -650,6 +653,38 @@ Pagination
 	skip = (2-1)*10 = 1-1*10 = 10 
 	
 	.skip(10).limit(10) - as per page is 10 only i will get 2nd page data
+
+
+Chaining = calling multiple methods on the same object sequentially in one line
+
+javascript -  
+
+	const arr = [
+		  {
+			"name": "accent chair",
+			"price": 25,
+			"company": "marcos",
+			"rating": 4
+		  },
+		  {
+			"name": "albany sectional",
+			"price": 109,
+			"company": "liddy",
+			"rating": 5
+		  },
+		  {
+			"name": "albany table",
+			"price": 309,
+			"company": "liddy",
+			"rating": 4.9
+		  },
+	]
+	
+	
+	arr.filter((rate)=>rate.rating > 4).map((user)=> user.name).sort()
+
+
+Mongoose: Model.find().where('age').gt(18).sort('name')
 
 ✅ Day 7: Learn Basic JWT Auth
 What is JWT?
