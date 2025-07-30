@@ -695,10 +695,26 @@ Sign and verify JWT tokens
 
 Use middleware to protect routes
 
-⏳ By End of Week 1:
-You’ll be ready to build your own simple CRUD app and then we can:
+How JWT Authentication Works (Simplified Flow)
+	User Login
+		User sends username & password to the server.
 
-Push it to GitHub
+	Server Issues JWT
+		Server verifies credentials.
+		If valid, server creates a JWT (with user info & expiration time).
+		Server signs the token with its secret key and sends it to the user.
 
-Add Apigee on top
+	Client Stores JWT
+		The client (browser/app) stores the token (commonly in localStorage, sessionStorage, or HttpOnly cookie).
+
+	Accessing Protected Resources
+		When the client wants to request protected data, it includes the token in the request header:
+
+			Authorization: Bearer <JWT_TOKEN>
+			
+	Server Verifies Token
+		Server extracts the token from the header.
+		Verifies the signature using the secret key:
+			If valid and not expired → request is authorized → send data.
+			If invalid or expired → respond with 401 Unauthorized.
 
