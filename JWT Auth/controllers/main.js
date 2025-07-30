@@ -4,8 +4,20 @@ require('dotenv').config()
 const secret = process.env.JWT_SECRET
 
 const dashboard = async(req,res,next)=>{
-    const randomNumber = Math.floor(Math.random()*100)
-    res.status(200).json({msg:"Hello",secret:`your lucky number ${randomNumber}`})
+    const authHeader = req.headers.authorization
+    
+    if(!authHeader || !authHeader.startsWith('Bearer ')){
+        throw new CustomAPIError("Please provide the Auth Token",400)
+    }
+
+    const token = authHeader.split(' ')[1]
+    try {
+        const decode = jwt.verify(token,secret)
+        const randomNumber = Math.floor(Math.random()*100)
+        res.status(200).json({msg:`Hello ,${decode.username}`,secret:`your lucky number ${randomNumber}`})
+    } catch (error) {
+        throw new CustomAPIError("UnAuth Token",401)
+    }
 }
 
 const login = async(req,res,next)=>{
