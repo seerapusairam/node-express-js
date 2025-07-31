@@ -1,4 +1,4 @@
-const customError = require('../errors/custom-error')
+const {UnauthorizedError} = require('../errors/allErrors')
 const jwt = require('jsonwebtoken')
 
 const auth = async(req,res,next)=>{
@@ -7,9 +7,9 @@ const auth = async(req,res,next)=>{
     const authHeader = req.headers.authorization
     
     if(!authHeader || !authHeader.startsWith('Bearer ')){
-        throw new customError("Please provide the Auth Token",400)
+        throw new UnauthorizedError("Please provide the Auth Token")
     }
-
+ 
     const token = authHeader.split(' ')[1]
     try {
         const decode = jwt.verify(token,process.env.JWT_SECRET)
@@ -17,7 +17,7 @@ const auth = async(req,res,next)=>{
 
         req.user = {id,username}
     } catch (error) {
-        throw new customError("Unauthorized",401)
+        throw new UnauthorizedError("No authorized for this route")
     }
 
     next()

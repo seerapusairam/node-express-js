@@ -15,10 +15,10 @@ const login = async(req,res,next)=>{
         throw new customError("Please Provide the data",400)
     }
 
-    //just for demo
+    //just for demo we made the date 
     const id = new Date().getDate()
 
-    const token = jwt.sign({id,username},secret,{expiresIn:'30d'})
+    const token = jwt.sign({id,username},process.env.JWT_SECRET,{expiresIn:'30d'})
     res.json({message:"Fine",token})
 
 }
