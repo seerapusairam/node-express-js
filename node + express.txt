@@ -7,7 +7,7 @@ from local
 	git add . - Add your files
 
 	git commit -m "Initial commit" - Commit the changes
-
+ 
 	git remote add origin <repo link> - Add remote repository
 
 	git branch -M main
@@ -198,6 +198,8 @@ Understanding the event loops - how teh async task will be done in node js
 
 setTimeout -> it was a async callback thing which will execute after the mention time 
 setInterval -> it will keep on executing after mentioned time
+
+Note - The event loop processes synchronous code first (your completed() log) and then handles asynchronous callbacks (like settimeout , setInterval) when their timers expire.
 
     fs.writeFileSync('./sample/big.txt',`Hello there ${i}\n`, { flag : 'a' }) // flag will tell how to open the file we are opening in append mode
 
@@ -410,7 +412,7 @@ MiddleWare
 	
 	Inside the middleware, you can do things like:
 	-Log info (like a logger middleware)
-	-Modify req or res
+	-Modify req or res -> means let say we exacted some values in middel ware that we need to use in the controller then we can set req parameter withe values so we caan access them in controller from req
 	-Authenticate the user
 	-Parse data, etc.
 
@@ -456,6 +458,7 @@ in express - (err,req,res,next)  - this is error middle ware
 			 (req,res,next) - normal middleware
 			 
 express-async-errors is a popular npm package that makes handling async errors in Express simpler — you won’t even need to write an asyncWrapper manually.
+https-status-codes - this is a node module where we can get the status codes of all http error which will  be easy to access for error handling
 
 Method -  GET, POST,PUT, DELETE
 
@@ -695,6 +698,42 @@ Sign and verify JWT tokens
 
 Use middleware to protect routes
 
+
+JWT - Json web token 
+
+it contains 3 parts 
+	Header.Payload.Signature
+
+The header and payload was encoded with Base64Url
+
+if we decode the header we will have 
+
+	{
+	  "alg": "HS256",
+	  "typ": "JWT"
+	}
+
+algorithm and type of the token 
+
+if wwwe decode the payload we will have 
+
+	{
+	  "sub": "1234567890",
+	  "name": "John Doe",
+	  "admin": true
+	}
+
+userinfo, exp time , id etc
+
+For signature to form we need to provide the algorithm we wanna use and encoded values of header and payload with secret
+
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)
+  
+then we will get the jwt token 
+
 How JWT Authentication Works (Simplified Flow)
 	User Login
 		User sends username & password to the server.
@@ -718,3 +757,9 @@ How JWT Authentication Works (Simplified Flow)
 			If valid and not expired → request is authorized → send data.
 			If invalid or expired → respond with 401 Unauthorized.
 
+package - jsonwebtoken 
+
+In the package we have two methods sign and decode 
+
+sign() -  contains 3 parameters - payload, secret, options
+	Basically try to keep the payload small
