@@ -1,4 +1,5 @@
 const mongooes = require('mongoose')
+const bcrypt = require('bcryptjs')
 
 const model = mongooes.Schema({
     name:{
@@ -20,8 +21,12 @@ const model = mongooes.Schema({
         type:String,
         required:[true,"Please provide the name"],
         minlength: 6,
-        maxlength: 12
     },
+})
+// here we can remove next if we want to cuz in mongooes 5.x by default to next as we are using async/await
+model.pre('save',async function(){
+    const salt = await bcrypt.genSalt(10)// Generate a random salt (10 = cost factor, higher is more secure but slower)
+    this.password = await bcrypt.hash(this.password,salt)// now we will combine salt hash + password and will hash the string
 })
 
 module.exports = mongooes.model("User",model)

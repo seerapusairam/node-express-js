@@ -763,3 +763,15 @@ In the package we have two methods sign and decode
 
 sign() -  contains 3 parameters - payload, secret, options
 	Basically try to keep the payload small
+	
+bcrypt module - with this we can encry the password
+
+Mongoose Middleware (Hooks)
+What are they?
+Functions that run before or after certain Mongoose operations on documents or queries.
+They help you add reusable logic, like validation, transformation, or logging.
+
+Types
+MiddlewareType		When It Runs			Common Use Cases
+pre					Before an operation		Hash password before saving, validate data, modify data before save/update
+post				After an operation		Logging, cleanup, send notifications
