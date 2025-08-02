@@ -7,7 +7,7 @@ const getJobById = async (req,res)=>{
 }
 
 const postJobs = async (req,res)=>{
-    res.json({message:"Post jobs"})
+    res.json(req.user)
 }
 
 const updateJobById = async (req,res)=>{
@@ -15,6 +15,7 @@ const updateJobById = async (req,res)=>{
 }
 
 const deleteJobById = async (req,res)=>{
+    
     res.json({message:"Delete job by ID"})
 }
 
