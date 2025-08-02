@@ -1,6 +1,7 @@
 const mongooes = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 const model = mongooes.Schema({
     name:{
@@ -30,10 +31,16 @@ model.pre('save',async function(){
     this.password = await bcrypt.hash(this.password,salt)// now we will combine salt hash + password and will hash the string
 })
 
+// Instance method to create a JWT for the user
 model.methods.createJWT = function(){
-    const token = jwt.sign({userId:this._id,user:this.name},'jwtSecret',{
-        expiresIn:'30d'
-    })
+    // Sign a JWT containing the user's ID and name, using the secret and expiration from environment variables
+    const token = jwt.sign(
+        { userId: this._id, user: this.name },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: process.env.JWT_EXP
+        }
+    )
     return token
 }
 

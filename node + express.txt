@@ -763,6 +763,12 @@ In the package we have two methods sign and decode
 
 sign() -  contains 3 parameters - payload, secret, options
 	Basically try to keep the payload small
+
+verify() - conatines 2 parameters - token, secret
+
+we can mention expiresIn for the token 
+- if you mention just number it will take as seconds
+- if string we need to mention time units like '30d', '120ms','1h'
 	
 bcrypt module - with this we can encry the password
 
