@@ -767,11 +767,30 @@ sign() -  contains 3 parameters - payload, secret, options
 bcrypt module - with this we can encry the password
 
 Mongoose Middleware (Hooks)
-What are they?
-Functions that run before or after certain Mongoose operations on documents or queries.
-They help you add reusable logic, like validation, transformation, or logging.
+	What are they?
+	Functions that run before or after certain Mongoose operations on documents or queries.
+	They help you add reusable logic, like validation, transformation, or logging.
 
-Types
-MiddlewareType		When It Runs			Common Use Cases
-pre					Before an operation		Hash password before saving, validate data, modify data before save/update
-post				After an operation		Logging, cleanup, send notifications
+	Types
+	MiddlewareType		When It Runs			Common Use Cases
+	pre					Before an operation		Hash password before saving, validate data, modify data before save/update
+	post				After an operation		Logging, cleanup, send notifications
+
+
+Instance Method 
+	A function you define on a Mongoose schema that is available on every document (instance) created from that model.
+
+	You access it by calling the method on the object itself (e.g., user.createJWT()).
+	
+You may got a doubt like why we are using user.createJWT()  to call the method in the schema why not the model.createJWT()
+
+	const user = await User.create({...req.body });
+	const token = user.createJWT(); 
+
+	Actually createJWT requried user data like _id and name which we will be accesed with the "user" variable.. when client send the data the data will be in user we will 
+	get that data so we have called method on user not model 
+
+	we can caall on model like this if you define it under schema.statics
+	User.createJWT(user);
+
+	But it was less clean 

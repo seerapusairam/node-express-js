@@ -1,5 +1,6 @@
 const mongooes = require('mongoose')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const model = mongooes.Schema({
     name:{
@@ -28,5 +29,12 @@ model.pre('save',async function(){
     const salt = await bcrypt.genSalt(10)// Generate a random salt (10 = cost factor, higher is more secure but slower)
     this.password = await bcrypt.hash(this.password,salt)// now we will combine salt hash + password and will hash the string
 })
+
+model.methods.createJWT = function(){
+    const token = jwt.sign({userId:this._id,user:this.name},'jwtSecret',{
+        expiresIn:'30d'
+    })
+    return token
+}
 
 module.exports = mongooes.model("User",model)
