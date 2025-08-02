@@ -44,4 +44,9 @@ model.methods.createJWT = function(){
     return token
 }
 
+model.methods.checkPassword = async function(userPassword){
+    const isMatch = await bcrypt.compare(userPassword, this.password)
+    return isMatch
+}
+
 module.exports = mongooes.model("User",model)
