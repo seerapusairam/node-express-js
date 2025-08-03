@@ -606,7 +606,7 @@ Connection
 	mongoose.connect('mongodb://localhost:27017/mydb')
 
 Schema & Model
-	const schema = new mongoose.Schema({ name: String });
+	const schema = new mongoose.Schema({ name: String },{timestamp:true); - timestamp will give createdat and updatedat.
 	const Model = mongoose.model('ModelName', schema);
 
 Validation
@@ -800,3 +800,19 @@ You may got a doubt like why we are using user.createJWT()  to call the method i
 	User.createJWT(user);
 
 	But it was less clean 
+	
+Referencing (Normalized Data)
+	Store user’s _id in Task collection.
+
+	Use populate() to fetch user details when needed.
+
+	example:
+		createdBy:{
+			type:mongooes.Types.ObjectId,
+			ref:'User',
+			required:[true,'Please provide user'],
+		}
+		
+	In Job schema, createdBy references User schema.
+	Whenever a job is created (e.g., postJob), we link the logged-in user’s _id to this field.
+	This ensures we always know which user created which job.

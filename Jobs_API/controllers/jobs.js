@@ -1,13 +1,25 @@
+const model = require('../models/Job')
+const {StatusCodes} = require('http-status-codes')
+const {BadRequestError,NotFoundError} = require('../errors/index')
+
 const getAllJobs = async (req,res)=>{
-    res.json({message:"Get all the jobs"})
+    const job = await model.find({createdBy:req.user.userId}).sort('-createdAt')
+    res.status(StatusCodes.OK).json({job, count:job.length})
 }
 
 const getJobById = async (req,res)=>{
-    res.json({message:"Get job by ID"})
+    const {id} = req.params
+    const job = await model.findById(id)
+    if(!job){
+        throw new NotFoundError("User not found")
+    }
+    res.status(StatusCodes.OK).json({job})
 }
 
 const postJobs = async (req,res)=>{
-    res.json(req.user)
+    req.body.createdBy = req.user.userId
+    const job = await model.create(req.body)
+    res.status(StatusCodes.CREATED).json({job})
 }
 
 const updateJobById = async (req,res)=>{
