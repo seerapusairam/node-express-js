@@ -8,8 +8,12 @@ const getAllJobs = async (req,res)=>{
 }
 
 const getJobById = async (req,res)=>{
-    const {id} = req.params
-    const job = await model.findById(id)
+    const {user:{userId},params:{id}} = req
+    const job = await model.findOne({
+        _id:id,
+        createdBy:userId
+    })
+    
     if(!job){
         throw new NotFoundError("User not found")
     }
