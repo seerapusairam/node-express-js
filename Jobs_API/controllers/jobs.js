@@ -47,8 +47,19 @@ const updateJobById = async (req,res)=>{
 }
 
 const deleteJobById = async (req,res)=>{
+    const {
+        user:{userId},
+        params:{id}
+    } = req
+    const job = await model.findByIdAndDelete({
+        _id:id,
+        createdBy:userId
+    })
     
-    res.json({message:"Delete job by ID"})
+    if(!job){
+        throw new NotFoundError("User not found")
+    }
+    res.status(StatusCodes.OK).json({job})
 }
 
 module.exports = {
