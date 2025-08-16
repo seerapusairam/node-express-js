@@ -618,7 +618,7 @@ Create
 	await Model.create({ name: 'Sairam' });
 Read
 	await Model.find();                      // Get all
-	await Model.find({ name: 'Sairam' });    // Get one
+	await Model.find({ name: 'Sairam', grade:"A" });    // filter by multiple 
 	await Model.findOne({ name: 'Sairam' }); // Get one
 	await Model.findById('64ea56f...');      // Get by _id
 
@@ -688,6 +688,52 @@ javascript -
 
 
 Mongoose: Model.find().where('age').gt(18).sort('name')
+
+Mongoose Middleware (Hooks)
+	What are they?
+	Functions that run before or after certain Mongoose operations on documents or queries.
+	They help you add reusable logic, like validation, transformation, or logging.
+
+	Types
+	MiddlewareType		When It Runs			Common Use Cases
+	pre					Before an operation		Hash password before saving, validate data, modify data before save/update
+	post				After an operation		Logging, cleanup, send notifications
+
+
+Instance Method 
+	A function you define on a Mongoose schema that is available on every document (instance) created from that model.
+
+	You access it by calling the method on the object itself (e.g., user.createJWT()).
+	
+You may got a doubt like why we are using user.createJWT()  to call the method in the schema why not the model.createJWT()
+
+	const user = await User.create({...req.body });
+	const token = user.createJWT(); 
+
+	Actually createJWT requried user data like _id and name which we will be accesed with the "user" variable.. when client send the data the data will be in user we will 
+	get that data so we have called method on user not model 
+
+	we can caall on model like this if you define it under schema.statics
+	User.createJWT(user);
+
+	But it was less clean 
+	
+Referencing (Normalized Data)
+	Store user’s _id in Task collection.
+
+	Use populate() to fetch user details when needed.
+
+	example:
+		createdBy:{
+			type:mongooes.Types.ObjectId,
+			ref:'User',
+			required:[true,'Please provide user'],
+		}
+		
+	In Job schema, createdBy references User schema.
+	Whenever a job is created (e.g., postJob), we link the logged-in user’s _id to this field.
+	This ensures we always know which user created which job.
+	
 
 ✅ Day 7: Learn Basic JWT Auth
 What is JWT?
@@ -771,48 +817,77 @@ we can mention expiresIn for the token
 - if string we need to mention time units like '30d', '120ms','1h'
 	
 bcrypt module - with this we can encry the password
-
-Mongoose Middleware (Hooks)
-	What are they?
-	Functions that run before or after certain Mongoose operations on documents or queries.
-	They help you add reusable logic, like validation, transformation, or logging.
-
-	Types
-	MiddlewareType		When It Runs			Common Use Cases
-	pre					Before an operation		Hash password before saving, validate data, modify data before save/update
-	post				After an operation		Logging, cleanup, send notifications
-
-
-Instance Method 
-	A function you define on a Mongoose schema that is available on every document (instance) created from that model.
-
-	You access it by calling the method on the object itself (e.g., user.createJWT()).
 	
-You may got a doubt like why we are using user.createJWT()  to call the method in the schema why not the model.createJWT()
+Testing 
 
-	const user = await User.create({...req.body });
-	const token = user.createJWT(); 
+Mocha chai test
 
-	Actually createJWT requried user data like _id and name which we will be accesed with the "user" variable.. when client send the data the data will be in user we will 
-	get that data so we have called method on user not model 
+1. Mocha
+	JavaScript test framework for Node.js and browsers.
+	Provides test structure with describe(), it(), before(), after() hooks.
+	Supports asynchronous testing (callbacks, promises, async/await).
+	Runs tests and reports results in console.
 
-	we can caall on model like this if you define it under schema.statics
-	User.createJWT(user);
+2. Chai
+	Assertion library used with Mocha.
+	Provides readable ways to assert values.
+	Supports three assertion styles:
+		Expect (most popular): expect(value).to.equal(expected)
+		Should: value.should.equal(expected) (requires patching)
+		Assert: classic style: assert.equal(value, expected)
+		Makes tests expressive and easier to understand.
 
-	But it was less clean 
+3. Sinon
+	Library for test spies, stubs, and mocks.
+	Helps isolate code by replacing dependencies and functions in tests.
+	Spy: tracks calls to functions without changing behavior.
+	Stub: replaces function with custom behavior (e.g., return fixed value).
+	Mock: like a stub but with built-in expectations.
+	Useful for mocking DB calls, timers, HTTP requests, etc.
 	
-Referencing (Normalized Data)
-	Store user’s _id in Task collection.
+example- 
 
-	Use populate() to fetch user details when needed.
+describe('loginUser', () => {
+  afterEach(() => {
+    sinon.restore(); // Restore all stubs/spies after each test
+  });
 
-	example:
-		createdBy:{
-			type:mongooes.Types.ObjectId,
-			ref:'User',
-			required:[true,'Please provide user'],
-		}
-		
-	In Job schema, createdBy references User schema.
-	Whenever a job is created (e.g., postJob), we link the logged-in user’s _id to this field.
-	This ensures we always know which user created which job.
+  it('should throw error if user not found', async () => {
+    sinon.stub(UserModel, 'findOne').resolves(null);
+
+    try {
+      await loginUser('test@example.com', 'pass123');
+      throw new Error('Test failed - error not thrown');
+    } catch (err) {
+      expect(UserModel.findOne.calledOnceWith({ email: 'test@example.com' })).to.be.true;
+      expect(err.message).to.equal('User not found');
+    }
+  });
+  })
+  
+| Concept        | What it means                     | Why use it                         |
+| -------------- | --------------------------------- | ---------------------------------- |
+| Unit Testing   | Test small piece of code alone    | To verify logic quickly & safely   |
+| Stub           | Replace a function with fake      | To isolate code from DB or APIs    |
+| Spy            | Watch if function was called      | To check responses or side effects |
+| Reassign chain | Each query method returns new obj | To keep chaining working           |
+| Mock Data      | Fake data returned by stubs       | To simulate DB/API results         |
+
+
+Project 
+
+Student Management API | [Link to your GitHub Repo]
+
+Developed a secure and scalable RESTful API for managing student and user data using Node.js, Express.js, and MongoDB.
+
+Implemented JWT-based authentication and password hashing with bcryptjs to ensure secure user registration and login.
+
+Enhanced API security by integrating helmet for protection against common vulnerabilities and express-rate-limit to prevent brute-force attacks.
+
+Achieved comprehensive test coverage by writing unit tests with Mocha, Chai, and Sinon for all major API functionalities.
+
+Designed and implemented a full CI/CD pipeline using GitHub Actions and Docker to automate the build, testing, and containerization process.
+
+Authored detailed API documentation using the OpenAPI (Swagger) specification to ensure clarity and ease of use.
+
+Technologies: Node.js, Express.js, MongoDB, Mongoose, JWT, Docker, GitHub Actions, Mocha, Chai, Sinon.
